@@ -2,6 +2,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 import json
+import time
 import asyncio
 from fastapi import FastAPI, Request
 from fastapi.responses import StreamingResponse
@@ -19,7 +20,7 @@ async def health():
 async def stream_response(messages: list):
     try:
         stream = await client.chat.completions.create(
-            model="gpt-4o",
+            model="gpt-4o-mini",
             max_tokens=80,
             stream=True,
             messages=[
@@ -63,6 +64,7 @@ async def stream_response(messages: list):
 @app.post("/v1/chat/completions")
 @app.post("/chat/completions")
 async def chat_completions(request: Request):
+    start = time.time()
     body = await request.json()
     messages = body.get("messages", [])
 
@@ -76,6 +78,7 @@ async def chat_completions(request: Request):
     print(f"Incoming messages: {len(filtered)} turns")
     if filtered:
         print(f"Last user message: {filtered[-1]['content']}")
+    print(f"Time to start streaming: {round(time.time() - start, 3)}s")
 
     return StreamingResponse(
         stream_response(filtered),
