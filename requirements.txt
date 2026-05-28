@@ -1,7 +1,6 @@
-fastapi
+fastapi[standard]
 uvicorn
 websockets
 httpx
 python-dotenv
-sarvamai
 openai

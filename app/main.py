@@ -3,7 +3,6 @@ load_dotenv()
 
 import json
 import time
-import asyncio
 from fastapi import FastAPI, Request
 from fastapi.responses import StreamingResponse
 from openai import AsyncOpenAI
